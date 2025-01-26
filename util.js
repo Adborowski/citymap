@@ -69,9 +69,12 @@ export const getDummyMarkers = () => {
   const markerCount = 5;
   const markerSpread = 0.008;
   const dummyMarkers = [];
+  const dummyDescription =
+    "A static asset is a file that is bundled with your app's binary (native binary). This file type is not part of your app's JavaScript bundle which contain your app's code.";
 
   const primeDummy = {
     title: `marker-prime`,
+    description: dummyDescription,
     coordinate: coordWarsaw,
     pinColor: "#ff0000",
   };
@@ -85,6 +88,7 @@ export const getDummyMarkers = () => {
     dummyMarkers.push({
       title: `marker-${i}`,
       coordinate: { latitude: latitude, longitude: longitude },
+      description: dummyDescription,
     });
   }
 

@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View, LayoutAnimation } from "react-native";
-import { Marker } from "react-native-maps";
+import { Marker, Callout } from "react-native-maps";
 import MarkerPin from "./MarkerPin";
 import React from "react";
+import MarkerCard from "./MarkerCard";
 
 const MapMarker = ({ marker, setSelectedMarker }) => {
   const { coordinate, title } = marker;
   return (
     <Marker
+      style={styles.markerWrapper}
       {...marker}
       onSelect={(e) => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -18,10 +20,18 @@ const MapMarker = ({ marker, setSelectedMarker }) => {
       }}
     >
       <MarkerPin />
+      <Callout style={styles.calloutWrapper}>
+        <MarkerCard {...marker} />
+      </Callout>
     </Marker>
   );
 };
 
 export default MapMarker;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  marker: {},
+  calloutWrapper: {
+    width: 300,
+  },
+});

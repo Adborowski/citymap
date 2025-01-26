@@ -12,7 +12,7 @@ const MarkerPin = () => {
   return (
     <View style={[styles.markerPinWrapper, { backgroundColor: pinColor }]}>
       <View style={[styles.markerPinFoot, { backgroundColor: pinColor }]} />
-      <Text style={styles.pinText}>{Math.random() > 0.5 ? "?" : "!"}</Text>
+      <Text style={styles.pinText}>!</Text>
     </View>
   );
 };
@@ -21,6 +21,7 @@ export default MarkerPin;
 
 const styles = StyleSheet.create({
   markerPinWrapper: {
+    opacity: 0.85,
     width: pinSize,
     height: pinSize,
     borderRadius: 60,
