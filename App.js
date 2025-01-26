@@ -1,54 +1,34 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, LayoutAnimation } from "react-native";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
-import { ansiColors, fluctuate, getRandomColor } from "./util";
+import { ansiColors, fluctuate, getRandomColor, getDummyMarkers } from "./util";
+import { useState, useEffect, useMemo } from "react";
 import MapMarker from "./components/MapMarker";
+import MapMarkers from "./components/MapMarkers";
 export default function App() {
-  const coordWarsaw = { latitude: 52.2297, longitude: 21.0122 };
   const ac = ansiColors;
-
-  const getDummyMarkers = () => {
-    const markerCount = 50;
-    const markerSpread = 0.03;
-    const dummyMarkers = [];
-
-    const primeDummy = {
-      title: `marker-prime`,
-      coordinate: coordWarsaw,
-      pinColor: "#ff0000",
-    };
-
-    dummyMarkers.push(primeDummy);
-
-    for (let i = 0; i < markerCount; i++) {
-      const latitude = fluctuate(coordWarsaw.latitude, markerSpread);
-      const longitude = fluctuate(coordWarsaw.longitude, markerSpread);
-
-      dummyMarkers.push({
-        title: `marker-${i}`,
-        coordinate: { latitude: latitude, longitude: longitude },
-        pinColor: getRandomColor(),
-      });
-    }
-
-    console.log(`${ac.yellow}${dummyMarkers.length} dummy markers ${ac.reset}`);
-    console.log(dummyMarkers[0]);
-    return dummyMarkers;
-  };
-
   const zoom = 25; // camera height
   const delta = zoom * 0.001;
 
-  const markers = getDummyMarkers();
+  const [selectedMarker, setSelectedMarker] = useState();
+  const [markers, setMarkers] = useState(getDummyMarkers());
+
+  const MarkerDetails = (markerData) => {
+    return (
+      <View style={{ flex: 1 }}>
+        <Text>Some marker</Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
-      <Text>Welcome to Warsaw</Text>
       <MapView
+        onMapReady={() => {
+          console.log(ac.green + "map loaded" + ac.reset);
+        }}
         style={styles.map}
-        // mapType="mutedStandard"
-
         initialRegion={{
           latitude: 52.2297,
           longitude: 21.0122,
@@ -56,14 +36,9 @@ export default function App() {
           longitudeDelta: delta,
         }}
       >
-        {markers.map((marker) => (
-          <MapMarker
-            key={`${marker.title}${marker.coordinate.latitude.toString()}`}
-            {...marker}
-          />
-        ))}
+        <MapMarkers />
       </MapView>
-      <StatusBar style="auto" />
+      {selectedMarker && <MarkerDetails {...selectedMarker} />}
     </View>
   );
 }
@@ -76,7 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   map: {
+    flex: 3,
     width: "100%",
-    height: "100%",
   },
 });

@@ -1,15 +1,20 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, LayoutAnimation } from "react-native";
 import { Marker } from "react-native-maps";
 import MarkerPin from "./MarkerPin";
 import React from "react";
 
-const MapMarker = (markerData) => {
-  const { coordinate, title } = markerData;
+const MapMarker = ({ marker, setSelectedMarker }) => {
+  const { coordinate, title } = marker;
   return (
     <Marker
-      {...markerData}
-      onPress={(e) => {
-        console.log(e.nativeEvent);
+      {...marker}
+      onSelect={(e) => {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        setSelectedMarker(marker);
+      }}
+      onDeselect={(e) => {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        setSelectedMarker();
       }}
     >
       <MarkerPin />

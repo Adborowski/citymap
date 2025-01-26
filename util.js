@@ -19,9 +19,12 @@ export const ansiColors = {
 };
 
 export const fluctuate = (number, amplitude) => {
+  let newNumber = number;
   const negativity = Math.random() > 0.5 ? 1 : -1;
-  const fluctuation = Math.random() * amplitude * negativity;
-  return number + fluctuation;
+  const modifier = Math.random() * amplitude * negativity;
+  newNumber += modifier;
+
+  return newNumber;
 };
 
 export const getRandomColor = () => {
@@ -58,4 +61,33 @@ export const lngToKm = (lng, latitude) => {
   const kmPerDegree = (earthCircumference * Math.cos(latInRadians)) / 360;
   // Convert longitude degrees to km
   return lng * kmPerDegree;
+};
+
+export const getDummyMarkers = () => {
+  const ac = ansiColors;
+  const coordWarsaw = { latitude: 52.2297, longitude: 21.0122 };
+  const markerCount = 5;
+  const markerSpread = 0.008;
+  const dummyMarkers = [];
+
+  const primeDummy = {
+    title: `marker-prime`,
+    coordinate: coordWarsaw,
+    pinColor: "#ff0000",
+  };
+
+  dummyMarkers.push(primeDummy);
+
+  for (let i = 0; i < markerCount; i++) {
+    const latitude = fluctuate(coordWarsaw.latitude, markerSpread);
+    const longitude = fluctuate(coordWarsaw.longitude, markerSpread);
+
+    dummyMarkers.push({
+      title: `marker-${i}`,
+      coordinate: { latitude: latitude, longitude: longitude },
+    });
+  }
+
+  console.log(`${ac.yellow}${dummyMarkers.length} dummy markers ${ac.reset}`);
+  return dummyMarkers;
 };
