@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>City Map</Text>
+      <Text>Welcome to Warsaw</Text>
       <StatusBar style="auto" />
     </View>
   );
