@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
 import { ansiColors, fluctuate, getRandomColor } from "./util";
+import MapMarker from "./components/MapMarker";
 export default function App() {
   const coordWarsaw = { latitude: 52.2297, longitude: 21.0122 };
   const ac = ansiColors;
@@ -46,7 +47,8 @@ export default function App() {
       <Text>Welcome to Warsaw</Text>
       <MapView
         style={styles.map}
-        mapType="mutedStandard"
+        // mapType="mutedStandard"
+
         initialRegion={{
           latitude: 52.2297,
           longitude: 21.0122,
@@ -55,7 +57,10 @@ export default function App() {
         }}
       >
         {markers.map((marker) => (
-          <Marker key={marker.title} {...marker} />
+          <MapMarker
+            key={`${marker.title}${marker.coordinate.latitude.toString()}`}
+            {...marker}
+          />
         ))}
       </MapView>
       <StatusBar style="auto" />
