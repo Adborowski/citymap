@@ -1,0 +1,61 @@
+export const ansiColors = {
+  black: "\x1b[30m",
+  red: "\x1b[31m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  magenta: "\x1b[35m",
+  cyan: "\x1b[36m",
+  white: "\x1b[37m",
+  reset: "\x1b[0m",
+  brightBlack: "\x1b[90m",
+  brightRed: "\x1b[91m",
+  brightGreen: "\x1b[92m",
+  brightYellow: "\x1b[93m",
+  brightBlue: "\x1b[94m",
+  brightMagenta: "\x1b[95m",
+  brightCyan: "\x1b[96m",
+  brightWhite: "\x1b[97m",
+};
+
+export const fluctuate = (number, amplitude) => {
+  const negativity = Math.random() > 0.5 ? 1 : -1;
+  const fluctuation = Math.random() * amplitude * negativity;
+  return number + fluctuation;
+};
+
+export const getRandomColor = () => {
+  return "#" + Math.floor(Math.random() * 16777215).toString(16);
+};
+
+export const kmToLat = (km) => {
+  // Length in km of 1° of latitude = always 111.32 km
+  return km / 111.32;
+};
+
+export const latToKm = (lat) => {
+  // Length in km of 1° of latitude = always 111.32 km
+  return lat * 111.32;
+};
+
+export const kmToLng = (km, latitude) => {
+  // Earth's circumference at the equator (in km)
+  const earthCircumference = 40075;
+  // Convert latitude to radians
+  const latInRadians = latitude * (Math.PI / 180);
+  // Calculate the length of 1 degree of longitude at given latitude
+  const kmPerDegree = (earthCircumference * Math.cos(latInRadians)) / 360;
+  // Convert km to longitude degrees
+  return km / kmPerDegree;
+};
+
+export const lngToKm = (lng, latitude) => {
+  // Earth's circumference at the equator (in km)
+  const earthCircumference = 40075;
+  // Convert latitude to radians
+  const latInRadians = latitude * (Math.PI / 180);
+  // Calculate the length of 1 degree of longitude at given latitude
+  const kmPerDegree = (earthCircumference * Math.cos(latInRadians)) / 360;
+  // Convert longitude degrees to km
+  return lng * kmPerDegree;
+};
