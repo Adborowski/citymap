@@ -1,32 +1,62 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, LayoutAnimation } from "react-native";
+import { Pressable, StyleSheet, View, Text } from "react-native";
+import {
+  ansiColors,
+  fluctuate,
+  getDummyMarkers,
+  randomWords,
+  roll,
+} from "./util";
+import { useEffect, useState } from "react";
 import MapView from "react-native-maps";
-import { Marker } from "react-native-maps";
-import { ansiColors, fluctuate, getRandomColor, getDummyMarkers } from "./util";
-import { useState, useEffect, useMemo } from "react";
-import MapMarker from "./components/MapMarker";
 import MapMarkers from "./components/MapMarkers";
+import Button from "./components/Button";
+import uuid from "react-native-uuid";
+import { saveMarker, getMarkers } from "./database";
+import { getDatabase, ref, onValue, child, get } from "firebase/database";
+import { useRef } from "react";
+
 export default function App() {
+  const warsawCoordinate = { latitude: 52.2297, longitude: 21.0122 };
+  const wwa = warsawCoordinate;
   const ac = ansiColors;
   const zoom = 25; // camera height
   const delta = zoom * 0.001;
 
-  const [selectedMarker, setSelectedMarker] = useState();
-  const [markers, setMarkers] = useState(getDummyMarkers());
+  const createMarker = () => {
+    let newMarker = {
+      id: uuid.v4(),
+      title: roll(randomWords),
+      coordinate: {
+        latitude: fluctuate(wwa.latitude, 0.05),
+        longitude: fluctuate(wwa.longitude, 0.05),
+      },
+    };
 
-  const MarkerDetails = (markerData) => {
-    return (
-      <View style={{ flex: 1 }}>
-        <Text>Some marker</Text>
-      </View>
-    );
+    saveMarker(newMarker);
   };
 
+  const [markers, setMarkers] = useState([]);
+
+  useEffect(() => {
+    getMarkers().then((x) => {
+      console.log(x);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("marker update in app.js");
+  }, [markers]);
+
   return (
-    <View style={styles.container}>
+    <View
+      key={() => {
+        return Date.now();
+      }}
+      style={styles.container}
+    >
       <MapView
         onMapReady={() => {
-          console.log(ac.green + "map loaded" + ac.reset);
+          console.log(ac.green + "map ready" + ac.reset);
         }}
         style={styles.map}
         initialRegion={{
@@ -36,9 +66,11 @@ export default function App() {
           longitudeDelta: delta,
         }}
       >
-        <MapMarkers />
+        <MapMarkers markers={markers} />
       </MapView>
-      {selectedMarker && <MarkerDetails {...selectedMarker} />}
+      <View style={styles.controls}>
+        <Button label={"New Marker"} onPress={createMarker} />
+      </View>
     </View>
   );
 }
@@ -51,7 +83,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   map: {
-    flex: 3,
+    flex: 5,
     width: "100%",
+  },
+  controls: {
+    flex: 1,
+    padding: 18,
   },
 });

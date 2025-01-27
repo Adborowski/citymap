@@ -1,22 +1,24 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useState, useEffect, useMemo } from "react";
-import { getDummyMarkers } from "../util";
+import { getDatabase, ref, onValue, child, get } from "firebase/database";
+import { ansiColors, getDummyMarkers } from "../util";
 import MapMarker from "./MapMarker";
 import React from "react";
 
-const MapMarkers = () => {
+const MapMarkers = ({ markers }) => {
   const [selectedMarker, setSelectedMarker] = useState();
-  const [markers, setMarkers] = useState(getDummyMarkers());
 
   return (
     <>
-      {markers.map((marker) => (
-        <MapMarker
-          key={`${marker.title}${marker.coordinate.latitude.toString()}`}
-          marker={marker}
-          setSelectedMarker={setSelectedMarker}
-        />
-      ))}
+      {markers.map((marker) => {
+        return (
+          <MapMarker
+            key={`${marker.title}${marker.coordinate.latitude.toString()}`}
+            marker={marker}
+            setSelectedMarker={setSelectedMarker}
+          />
+        );
+      })}
     </>
   );
 };

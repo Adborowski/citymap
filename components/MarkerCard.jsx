@@ -16,6 +16,9 @@ const MarkerCard = (marker) => {
         <Pressable style={styles.button}>
           <Text style={styles.buttonLabel}>View</Text>
         </Pressable>
+        <Pressable style={styles.button}>
+          <Text style={styles.buttonLabel}>Save</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -28,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    padding: 18,
+    padding: 12,
   },
   imageWrapper: {
     width: "100%",
@@ -46,8 +49,12 @@ const styles = StyleSheet.create({
   description: {
     marginTop: 12,
   },
-  controls: {},
+  controls: {
+    flexDirection: "row",
+    gap: 6,
+  },
   button: {
+    flex: 1,
     backgroundColor: "#ddd",
     padding: 12,
     marginTop: 12,

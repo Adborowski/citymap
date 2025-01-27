@@ -1,3 +1,5 @@
+import uuid from "react-native-uuid";
+
 export const ansiColors = {
   black: "\x1b[30m",
   red: "\x1b[31m",
@@ -73,6 +75,7 @@ export const getDummyMarkers = () => {
     "A static asset is a file that is bundled with your app's binary (native binary). This file type is not part of your app's JavaScript bundle which contain your app's code.";
 
   const primeDummy = {
+    id: uuid.v4(),
     title: `marker-prime`,
     description: dummyDescription,
     coordinate: coordWarsaw,
@@ -86,6 +89,7 @@ export const getDummyMarkers = () => {
     const longitude = fluctuate(coordWarsaw.longitude, markerSpread);
 
     dummyMarkers.push({
+      id: uuid.v4(),
       title: `marker-${i}`,
       coordinate: { latitude: latitude, longitude: longitude },
       description: dummyDescription,
@@ -94,4 +98,48 @@ export const getDummyMarkers = () => {
 
   console.log(`${ac.yellow}${dummyMarkers.length} dummy markers ${ac.reset}`);
   return dummyMarkers;
+};
+
+export const randomWords = [
+  "apple",
+  "breeze",
+  "canvas",
+  "dawn",
+  "eclipse",
+  "flourish",
+  "glimmer",
+  "horizon",
+  "ignite",
+  "jungle",
+  "kaleidoscope",
+  "luminous",
+  "mystic",
+  "nebula",
+  "oasis",
+  "pinnacle",
+  "quartz",
+  "radiant",
+  "serene",
+  "tranquil",
+  "utopia",
+  "vivid",
+  "whisper",
+  "zenith",
+  "cascade",
+  "delight",
+  "enigma",
+  "felicity",
+  "glimpse",
+  "harmony",
+  "infinity",
+  "jubilee",
+  "keystone",
+  "labyrinth",
+  "melody",
+  "nirvana",
+];
+
+export const roll = (array) => {
+  let index = Math.floor(Math.random() * array.length);
+  return array[index];
 };
